@@ -105,6 +105,9 @@ class _BiodataScreenState extends State<BiodataScreen> {
   // Skills and Hobbies Controllers
   final _skillsController = TextEditingController();
   final _hobbiesController = TextEditingController();
+  
+  // Dagdag na Controller para sa Favorite Food
+  final _favoriteFoodController = TextEditingController();
 
   Future<void> _saveBiodata() async {
     if (_formKey.currentState!.validate()) {
@@ -122,6 +125,7 @@ class _BiodataScreenState extends State<BiodataScreen> {
           'yearLevel': _yearLevelController.text,
           'skills': _skillsController.text,
           'hobbies': _hobbiesController.text,
+          'favoriteFood': _favoriteFoodController.text, // Isinama rito
           'createdAt': Timestamp.now(),
         });
 
@@ -138,6 +142,7 @@ class _BiodataScreenState extends State<BiodataScreen> {
         _yearLevelController.clear();
         _skillsController.clear();
         _hobbiesController.clear();
+        _favoriteFoodController.clear(); // Nilinis din dito
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Biodata successfully saved to Firebase!')),
@@ -265,9 +270,16 @@ class _BiodataScreenState extends State<BiodataScreen> {
                 maxLines: 2,
                 validator: (value) => value!.isEmpty ? 'Please enter your hobbies' : null,
               ),
+              const SizedBox(height: 12),
+              // Dagdag na TextFormField para sa Favorite Food
+              TextFormField(
+                controller: _favoriteFoodController,
+                decoration: const InputDecoration(labelText: 'Favorite Food'),
+                validator: (value) => value!.isEmpty ? 'Please enter your favorite food' : null,
+              ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: _saveBiodata, // Update Kolang
+                onPressed: _saveBiodata,
                 child: const Padding(
                   padding: EdgeInsets.all(12.0),
                   child: Text('Save Biodata to Firebase', style: TextStyle(fontSize: 16)),
